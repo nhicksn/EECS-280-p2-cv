@@ -15,5 +15,13 @@ int main() {
     Matrix_fill_border(m, 5);
 
     Matrix_print(m, cout);
+    *Matrix_at(m, 2, 5) = -1;
+    Matrix_print(m, cout);
+    cout << Matrix_max(m) << endl;
+    cout << Matrix_column_of_min_value_in_row(m, 3, 2, 5) << endl;
+    cout << Matrix_min_value_in_row(m, 3, 2, 4) << endl;
+    int *ptr = Matrix_at(m, 0, 4);
+    int column = Matrix_column(m, ptr);
+    cout << column << endl;
     delete m;
 }
