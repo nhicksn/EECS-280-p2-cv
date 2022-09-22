@@ -59,6 +59,7 @@ int Matrix_row(const Matrix* mat, const int* ptr) {
     }
     assert(false);
   }
+  
 }
 
 // REQUIRES: mat points to a valid Matrix
