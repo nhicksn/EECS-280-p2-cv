@@ -27,12 +27,7 @@ void Matrix_init(Matrix* mat, int width, int height) {
 void Matrix_print(const Matrix* mat, std::ostream& os) {
   assert(mat->width > 0 && mat->height > 0);
   os << mat->width << " " << mat->height << "\n";
-  for(int i = 0; i < mat->height; i++) {
-    for(int j = 0; j < mat->width; j++) {
-      os << (mat + i * mat->width + j)->data << " ";
-    }
-    os << "\n";
-  }
+  
 }
 
 // REQUIRES: mat points to an valid Matrix
@@ -54,6 +49,7 @@ int Matrix_height(const Matrix* mat) {
 // EFFECTS:  Returns the row of the element pointed to by ptr.
 int Matrix_row(const Matrix* mat, const int* ptr) {
   assert(mat->width > 0 && mat->height > 0);
+  assert(ptr - mat->data < mat->width * mat->height && ptr - mat->data >= 0);
   /*for(int i = 0; i < *mat->data; i++) {
     if(*ptr == *mat->data) {
       break;
@@ -70,6 +66,7 @@ int Matrix_row(const Matrix* mat, const int* ptr) {
 // EFFECTS:  Returns the column of the element pointed to by ptr.
 int Matrix_column(const Matrix* mat, const int* ptr) {
   assert(mat->width > 0 && mat->height > 0);
+  assert(ptr - mat->data < mat->width * mat->height && ptr - mat->data >= 0);
   /*for(int i = 0; i < *mat->data; i++) {
     if(*ptr == *mat->data) {
       break;
@@ -115,7 +112,7 @@ const int* Matrix_at(const Matrix* mat, int row, int column) {
 // MODIFIES: *mat
 // EFFECTS:  Sets each element of the Matrix to the given value.
 void Matrix_fill(Matrix* mat, int value) {
-  assert(false); // TODO Replace with your implementation!
+  
 }
 
 // REQUIRES: mat points to a valid Matrix
