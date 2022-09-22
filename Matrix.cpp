@@ -10,7 +10,9 @@
 // EFFECTS:  Initializes *mat as a Matrix with the given width and height.
 // NOTE:     Do NOT use new or delete here.
 void Matrix_init(Matrix* mat, int width, int height) {
-  assert(false); // TODO Replace with your implementation!
+  assert(mat->width);
+  mat->width = width;
+  mat->height = height;
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -22,26 +24,41 @@ void Matrix_init(Matrix* mat, int width, int height) {
 //           by a newline. This means there will be an "extra" space at
 //           the end of each line.
 void Matrix_print(const Matrix* mat, std::ostream& os) {
-  assert(false); // TODO Replace with your implementation!
+  assert(mat->width > 0 && mat->height > 0);
+  os << mat->width << " " << mat->height << "\n";
+  for(int i = 0; i < mat->height; i++) {
+    for(int j = 0; j < mat->width; j++) {
+      os << (mat + i * mat->width + j)->data << " ";
+    }
+    os << "\n";
+  }
 }
 
 // REQUIRES: mat points to an valid Matrix
 // EFFECTS:  Returns the width of the Matrix.
 int Matrix_width(const Matrix* mat) {
-  assert(false); // TODO Replace with your implementation!
+  assert(mat->width > 0 && mat->height > 0);
+  return mat->width;
 }
 
 // REQUIRES: mat points to a valid Matrix
 // EFFECTS:  Returns the height of the Matrix.
 int Matrix_height(const Matrix* mat) {
-  assert(false); // TODO Replace with your implementation!
+  assert(mat->width > 0 && mat->height > 0);
+  return mat->height;
 }
 
 // REQUIRES: mat points to a valid Matrix
 //           ptr points to an element in the Matrix
 // EFFECTS:  Returns the row of the element pointed to by ptr.
 int Matrix_row(const Matrix* mat, const int* ptr) {
-  assert(false); // TODO Replace with your implementation!
+  assert(mat->width > 0 && mat->height > 0);
+  for(int i = 0; i < *mat->data; i++) {
+    if(*ptr == *mat->data) {
+      break;
+    }
+    assert(false);
+  }
 }
 
 // REQUIRES: mat points to a valid Matrix
