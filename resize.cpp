@@ -15,4 +15,5 @@ int main() {
     Matrix_fill_border(m, 5);
 
     Matrix_print(m, cout);
+    delete m;
 }

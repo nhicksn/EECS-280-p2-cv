@@ -176,16 +176,14 @@ int Matrix_column_of_min_value_in_row(const Matrix* mat, int row,
   assert(column_start < column_end);
   int min = *Matrix_at(mat, 0, 0);
   int column;
-  for(int i = 0; i < mat->height; i++) {
-    for(int j = column_start; j < column_end; j++) {
-      if(*Matrix_at(mat, i, j) < min) {
-        min = *Matrix_at(mat, i, j);
-        column = j;
-      }
+  for(int i = column_start; i < column_end; i++) {
+    if(*Matrix_at(mat, row, i) < min) {
+      min = *Matrix_at(mat, row, i);
+      column = i;
     }
   }
   return column;
-  assert(false); // TODO Replace with your implementation!
+  assert(false);
 }
 
 // REQUIRES: mat points to a valid Matrix
@@ -201,15 +199,11 @@ int Matrix_min_value_in_row(const Matrix* mat, int row,
   assert(0 <= column_start && column_end <= Matrix_width(mat));
   assert(column_start < column_end);
   int min = *Matrix_at(mat, 0, 0);
-  int column;
-  for(int i = 0; i < mat->height; i++) {
-    for(int j = column_start; j < column_end; j++) {
-      if(*Matrix_at(mat, i, j) < min) {
-        min = *Matrix_at(mat, i, j);
-        column = j;
-      }
+  for(int i = column_start; i < column_end; i++) {
+    if(*Matrix_at(mat, row, i) < min) {
+      min = *Matrix_at(mat, row, i);
     }
   }
   return min;
-  assert(false); // TODO Replace with your implementation!
+  assert(false);
 }
