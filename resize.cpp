@@ -1,17 +1,21 @@
 // Project UID af1f95f547e44c8ea88730dfb185559d
 #include <iostream>
+#include <fstream>
 using namespace std;
 #include "Matrix.h"
+#include "Image.h"
 
-int main() {
+int main()
+{
+    /*
     Matrix* m = new Matrix; // allocate storage in dynamic memory
-    
+
     Matrix_init(m, 6, 6); // initialize it as a 100x100 matrix
-    
+
     Matrix_fill(m, 0); // fill with zeros
-    
+
     Matrix_print(m, cout); // print matrix to cout
-    
+
     Matrix_fill_border(m, 5);
 
     Matrix_print(m, cout);
@@ -24,4 +28,18 @@ int main() {
     int column = Matrix_column(m, ptr);
     cout << column << endl;
     delete m;
+    */
+    Image* img = new Image;
+    string filename = "horses.ppm";
+    ifstream fin;
+    fin.open(filename);
+    if(!fin.is_open()) {
+        cout << "open failed" << endl;
+        return 1;
+    }
+    Image_init(img, fin);
+    fin.close();
+
+    Image_print(img, cout);
+    delete img;
 }
