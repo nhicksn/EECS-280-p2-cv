@@ -105,11 +105,11 @@ int Image_height(const Image* img) {
 Pixel Image_get_pixel(const Image* img, int row, int column) {
   assert(0 <= row && row < Image_height(img));
   assert(0 <= column && column < Image_width(img));
-  Pixel* pix = new Pixel;
-  pix->r = *Matrix_at(&img->red_channel, row, column);
-  pix->g = *Matrix_at(&img->green_channel, row, column);
-  pix->b = *Matrix_at(&img->blue_channel, row, column);
-  return *pix;
+  int r = *Matrix_at(&img->red_channel, row, column);
+  int g = *Matrix_at(&img->green_channel, row, column);
+  int b = *Matrix_at(&img->blue_channel, row, column);
+  Pixel pix = {r, g, b};
+  return pix;
   assert(false);
 }
 

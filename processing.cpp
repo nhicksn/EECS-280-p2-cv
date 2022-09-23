@@ -126,7 +126,7 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
 //           computed and written into it.
 //           See the project spec for details on computing the cost matrix.
 void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
-  assert(cost->width != energy->width || cost->height != energy->width);
+  //assert(cost->width != energy->width || cost->height != energy->width);
   Matrix_init(cost, energy->width, energy->height);
   for(int i = 0; i < cost->width; i++) {
     *Matrix_at(cost, 0, i) = *Matrix_at(energy, 0, i);
@@ -163,32 +163,21 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
 //           with the bottom of the image and proceeding to the top,
 //           as described in the project spec.
 void find_minimal_vertical_seam(const Matrix* cost, int seam[]) {
-  //int seam_size = *(&seam + 1) - seam;
-  //assert(seam_size >= Matrix_height(cost));
   int column;
-  int columnTemp;
-  #include <iostream>
-  columnTemp = Matrix_column_of_min_value_in_row(cost, Matrix_height(cost) - 1, 0, Matrix_width(cost) - 1);
-  column = columnTemp;
+  column = Matrix_column_of_min_value_in_row(cost, Matrix_height(cost) - 1, 0, Matrix_width(cost) - 1);
   seam[Matrix_height(cost) - 1] = column;
   for(int i = Matrix_height(cost) - 2; i >= 0; i--) {
     if(column == 0) {
-      columnTemp = Matrix_column_of_min_value_in_row(cost, i, column, column + 1);
-      column = columnTemp;
+      column = Matrix_column_of_min_value_in_row(cost, i, column, column + 1);
       seam[i] = column;
-      cout << "TEST if" << endl;
     }
     else if(column == Matrix_width(cost) - 1) {
-      columnTemp = Matrix_column_of_min_value_in_row(cost, i, column - 1, column);
-      column = columnTemp;
+      column = Matrix_column_of_min_value_in_row(cost, i, column - 1, column);
       seam[i] = column;
-      cout << "TEST else if" << endl;
     }
     else {
-      columnTemp = Matrix_column_of_min_value_in_row(cost, i, column - 1, column + 1);
-      column = columnTemp;
+      column = Matrix_column_of_min_value_in_row(cost, i, column - 1, column + 1);
       seam[i] = column;
-      cout << "TEST else" << endl;
     }
   }
 }
@@ -207,7 +196,28 @@ void find_minimal_vertical_seam(const Matrix* cost, int seam[]) {
 // NOTE:     Use the new operator here to create the smaller Image,
 //           and then use delete when you are done with it.
 void remove_vertical_seam(Image *img, const int seam[]) {
-  assert(false); // TODO Replace with your implementation!
+  assert(img->width >= 2);
+  Image* imgSmall = new Image;
+  Image_init(imgSmall, img->width - 1, img->height);
+  int z = 0;
+  for(int i = 0; i < img->height; i++) {
+    for(int j = 0; j < img->width; j++) {
+      if(j == seam[i]) {
+        j++;
+      }
+      if(j != seam[i]) {
+        *Matrix_at(&imgSmall->red_channel, i, z) = *Matrix_at(&img->red_channel, i, j);
+        *Matrix_at(&imgSmall->green_channel, i, z) = *Matrix_at(&img->green_channel, i, j);
+        *Matrix_at(&imgSmall->blue_channel, i, z) = *Matrix_at(&img->blue_channel, i, j);
+        z++;
+      }
+      if(j == img->width - 1) {
+        z = 0;
+      }
+    }
+  }
+  *img = *imgSmall;
+  delete imgSmall;
 }
 
 
