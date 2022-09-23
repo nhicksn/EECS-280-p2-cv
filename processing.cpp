@@ -166,20 +166,29 @@ void find_minimal_vertical_seam(const Matrix* cost, int seam[]) {
   //int seam_size = *(&seam + 1) - seam;
   //assert(seam_size >= Matrix_height(cost));
   int column;
-  column = Matrix_column_of_min_value_in_row(cost, Matrix_height(cost) - 1, 0, Matrix_width(cost) - 1);
+  int columnTemp;
+  #include <iostream>
+  columnTemp = Matrix_column_of_min_value_in_row(cost, Matrix_height(cost) - 1, 0, Matrix_width(cost) - 1);
+  column = columnTemp;
   seam[Matrix_height(cost) - 1] = column;
   for(int i = Matrix_height(cost) - 2; i >= 0; i--) {
     if(column == 0) {
-      column = Matrix_column_of_min_value_in_row(cost, i, column, column + 1);
+      columnTemp = Matrix_column_of_min_value_in_row(cost, i, column, column + 1);
+      column = columnTemp;
       seam[i] = column;
+      cout << "TEST if" << endl;
     }
     else if(column == Matrix_width(cost) - 1) {
-      column = Matrix_column_of_min_value_in_row(cost, i, column - 1, column);
+      columnTemp = Matrix_column_of_min_value_in_row(cost, i, column - 1, column);
+      column = columnTemp;
       seam[i] = column;
+      cout << "TEST else if" << endl;
     }
     else {
-      column = Matrix_column_of_min_value_in_row(cost, i, column - 1, column + 1);
+      columnTemp = Matrix_column_of_min_value_in_row(cost, i, column - 1, column + 1);
+      column = columnTemp;
       seam[i] = column;
+      cout << "TEST else" << endl;
     }
   }
 }
