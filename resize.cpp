@@ -50,4 +50,5 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     Image_print(inputImg, fout);
+    delete inputImg;
 }
