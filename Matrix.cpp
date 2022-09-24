@@ -138,7 +138,7 @@ void Matrix_fill_border(Matrix* mat, int value) {
     *ptr = value;
   }
   // last column
-  for(int i = 0; i < mat->width; i++) {
+  for(int i = 0; i < mat->height; i++) {
     int *ptr = Matrix_at(mat, i, mat->width - 1);
     *ptr = value;
   }
