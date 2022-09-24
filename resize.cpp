@@ -1,45 +1,53 @@
 // Project UID af1f95f547e44c8ea88730dfb185559d
+
+using namespace std;
 #include <iostream>
 #include <fstream>
-using namespace std;
 #include "Matrix.h"
 #include "Image.h"
+#include "processing.h"
 
-int main()
-{
-    /*
-    Matrix* m = new Matrix; // allocate storage in dynamic memory
-
-    Matrix_init(m, 6, 6); // initialize it as a 100x100 matrix
-
-    Matrix_fill(m, 0); // fill with zeros
-
-    Matrix_print(m, cout); // print matrix to cout
-
-    Matrix_fill_border(m, 5);
-
-    Matrix_print(m, cout);
-    *Matrix_at(m, 2, 5) = -1;
-    Matrix_print(m, cout);
-    cout << Matrix_max(m) << endl;
-    cout << Matrix_column_of_min_value_in_row(m, 3, 2, 5) << endl;
-    cout << Matrix_min_value_in_row(m, 3, 2, 4) << endl;
-    int *ptr = Matrix_at(m, 0, 4);
-    int column = Matrix_column(m, ptr);
-    cout << column << endl;
-    delete m;
-    */
-    Image* img = new Image;
-    string filename = "horses.ppm";
+int main(int argc, char *argv[]) {
+    string input(argv[1]);
+    string output(argv[2]);
+    int width(atoi(argv[3]));
+    Image* inputImg = new Image;
     ifstream fin;
-    fin.open(filename);
+    fin.open(input);
     if(!fin.is_open()) {
-        cout << "open failed" << endl;
+        cout << "Error opening file: " << input << endl;
         return 1;
     }
-    Image_init(img, fin);
+    Image_init(inputImg, fin);
     fin.close();
-
-    Image_print(img, cout);
-    delete img;
+    int height;
+    if(argc == 4) {
+        height = Image_height(inputImg);
+    }
+    else if(argc == 5) {
+        height = (atoi(argv[4]));
+    }
+    if(4 > argc || argc > 5) {
+        cout << "Usage: resize.exe IN_FILENAME OUT_FILENAME WIDTH [HEIGHT]\n"
+         << "WIDTH and HEIGHT must be less than or equal to original" << endl;
+        return 1;
+    }
+    else if(width < 0 || width > Image_width(inputImg)) {
+        cout << "Usage: resize.exe IN_FILENAME OUT_FILENAME WIDTH [HEIGHT]\n"
+         << "WIDTH and HEIGHT must be less than or equal to original" << endl;
+        return 1;
+    }
+    else if(height < 0 || height > Image_height(inputImg)) {
+        cout << "Usage: resize.exe IN_FILENAME OUT_FILENAME WIDTH [HEIGHT]\n"
+         << "WIDTH and HEIGHT must be less than or equal to original" << endl;
+        return 1;
+    }
+    seam_carve(inputImg, width, height);
+    ofstream fout;
+    fout.open(output);
+    if(!fout.is_open()) {
+        cout << "Error opening file: " << output << endl;
+        return 1;
+    }
+    Image_print(inputImg, fout);
 }

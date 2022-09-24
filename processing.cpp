@@ -109,7 +109,8 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
       p_east->r = *Matrix_at(&img->red_channel, i, j + 1);
       p_east->g = *Matrix_at(&img->green_channel, i, j + 1);
       p_east->b = *Matrix_at(&img->blue_channel, i, j + 1);
-      *Matrix_at(energy, i, j) = squared_difference(*p_north, *p_south) + squared_difference(*p_west, *p_east);
+      *Matrix_at(energy, i, j) = squared_difference(*p_north, *p_south) 
+                                + squared_difference(*p_west, *p_east);
     }
   }
   Matrix_fill_border(energy, Matrix_max(energy));
@@ -137,13 +138,16 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
   for(int i = 1; i < cost->height; i++) {
     for(int j = 0; j < cost->width; j++) {
       if(j == 0) {
-        *Matrix_at(cost, i, j) = *Matrix_at(energy, i, j) + Matrix_min_value_in_row(cost, i - 1, j, j + 1);
+        *Matrix_at(cost, i, j) = *Matrix_at(energy, i, j) 
+                              + Matrix_min_value_in_row(cost, i - 1, j, j + 1);
       }
       else if(j == cost->width - 1) {
-        *Matrix_at(cost, i, j) = *Matrix_at(energy, i, j) + Matrix_min_value_in_row(cost, i - 1, j - 1, j);
+        *Matrix_at(cost, i, j) = *Matrix_at(energy, i, j)
+                              + Matrix_min_value_in_row(cost, i - 1, j - 1, j);
       }
       else {
-        *Matrix_at(cost, i, j) = *Matrix_at(energy, i, j) + Matrix_min_value_in_row(cost, i - 1, j - 1, j + 1);
+        *Matrix_at(cost, i, j) = *Matrix_at(energy, i, j) 
+                              + Matrix_min_value_in_row(cost, i - 1, j - 1, j + 1);
       }
     }
   }
@@ -166,7 +170,8 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
 //           with the bottom of the image and proceeding to the top,
 //           as described in the project spec.
 void find_minimal_vertical_seam(const Matrix* cost, int seam[]) {
-  int column = Matrix_column_of_min_value_in_row(cost, Matrix_height(cost) - 1, 0, Matrix_width(cost) - 1);
+  int column = Matrix_column_of_min_value_in_row(cost, 
+              Matrix_height(cost) - 1, 0, Matrix_width(cost) - 1);
   seam[Matrix_height(cost) - 1] = column;
   for(int i = Matrix_height(cost) - 2; i >= 0; i--) {
     if(column == 0) {
@@ -212,7 +217,8 @@ void remove_vertical_seam(Image *img, const int seam[]) {
       }
       if(j != seam[i] && j < img->width) {
         *Matrix_at(&imgSmall->red_channel, i, z) = *Matrix_at(&img->red_channel, i, j);
-        *Matrix_at(&imgSmall->green_channel, i, z) = *Matrix_at(&img->green_channel, i, j);
+        *Matrix_at(&imgSmall->green_channel, i, z) = *Matrix_at(&img->green_channel, 
+                                                                                    i, j);
         *Matrix_at(&imgSmall->blue_channel, i, z) = *Matrix_at(&img->blue_channel, i, j);
         z++;
       }
@@ -252,7 +258,7 @@ void seam_carve_width(Image *img, int newWidth) {
   }
   delete energy;
   delete cost;
-  delete seam;
+  delete[] seam;
 }
 
 // REQUIRES: img points to a valid Image
