@@ -95,6 +95,7 @@ TEST(matrix_width_height_basic) {
   Matrix_init(m, width, height);
   ASSERT_EQUAL(Matrix_width(m), width);
   ASSERT_EQUAL(Matrix_height(m), height);
+  delete m;
 }
 TEST(matrix_row_first) {
   Matrix* m = new Matrix;
@@ -223,7 +224,7 @@ TEST(matrix_column_1_by_1) {
   delete m;
 }
 TEST(matrix_fill_border_square) {
-    Matrix *m = new Matrix; // create a Matrix in dynamic memory
+  Matrix *m = new Matrix; // create a Matrix in dynamic memory
 
   const int width = 3;
   const int height = 3;
@@ -252,8 +253,9 @@ TEST(matrix_fill_border_square) {
   }
 
   delete m; // delete the Matrix
-}TEST(matrix_fill_border_rectangle) {
-    Matrix *m = new Matrix; // create a Matrix in dynamic memory
+}
+TEST(matrix_fill_border_rectangle) {
+  Matrix *m = new Matrix; // create a Matrix in dynamic memory
 
   const int width = 3;
   const int height = 5;
